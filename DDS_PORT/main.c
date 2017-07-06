@@ -347,7 +347,8 @@ if((SG.mode==0)||(SG.mode==1)||(SG.mode==2)||(SG.mode==3)||(SG.mode==4)||(SG.mod
 //any generator is stopped by setting flag value to 0
 //DDs generator which is inline ASM is stopped by setting
 //CPHA bit in SPCR register
-ISR(INT0_vect)
+//ISR(INT0_vect) //INT0 pin is busy for R2R-port. Use Input capture pin (ICP1) instead
+ISR(TIMER1_CAPT_vect)
 {
 SG.flag=0;//set flag to stop generator
 SPCR|=(1<<CPHA);//using CPHA bit as stop mark
@@ -355,7 +356,7 @@ SPCR|=(1<<CPHA);//using CPHA bit as stop mark
 SG.ON=0;//set off in LCD menu
 loop_until_bit_is_set(BPIN, START);//wait for button release
 }
-//timer overflow interrupt service tourine
+//timer overflow interrupt service routine
 //checks all button status and if button is pressed
 //value is updated
 ISR(TIMER2_OVF_vect)
@@ -524,7 +525,7 @@ asm volatile(	"eor r18, r18 	;r18<-0"	"\n\t"
 				"sbis %5, 2		;1 cycle if no skip" "\n\t"
 				"rjmp 1b		;2 cycles. Total 10 cycles"	"\n\t"
 				:
-				:"r" (ad0),"r" (ad1),"r" (ad2),"e" (signal),"I" (_SFR_IO_ADDR(PORTD)), "I" (_SFR_IO_ADDR(SPCR))
+				:"r" (ad0),"r" (ad1),"r" (ad2),"e" (signal),"I" (_SFR_IO_ADDR(R2RPORT)), "I" (_SFR_IO_ADDR(SPCR))
 				:"r18", "r19" 
 	);
 }
@@ -614,6 +615,7 @@ while(1)//infinite loop
 		{
 		//#WTF temporarily commented
 		//GICR|=(1<<INT0);//set external interrupt to enable stop
+		TIMSK |= (1<<TICIE1);//using input capture interrupt instead of general external.
 		if (SG.mode==7)
 			{
 			//Noise
@@ -626,7 +628,8 @@ while(1)//infinite loop
 			//display generator OFF
 			Menu_Update(SG.ON);
 			//stop external interrupt
-			GICR&=~(1<<INT0);
+			//GICR&=~(1<<INT0);
+			TIMSK &= ~(1<<TICIE1);
 			//start timer menu active
 			Timer2_Start();
 			}
@@ -660,7 +663,8 @@ while(1)//infinite loop
 			HSPORT&=~(1<<HS);
 			//display generator OFF
 			Menu_Update(SG.ON);	
-			GICR&=~(1<<INT0);//|(1<<INT1);//stop external interrupt
+			//stop external interrupt
+			TIMSK &= ~(1<<TICIE1);
 			//start timer menu active
 			Timer2_Start();
 			}
@@ -675,7 +679,8 @@ while(1)//infinite loop
 			R2RPORT=0x00;
 			//display generator OFF
 			Menu_Update(SG.ON);
-			GICR&=~(1<<INT0);//|(1<<INT1);//stop external interrupt
+			//stop external interrupt
+			TIMSK &= ~(1<<TICIE1);
 			//start timer menu active
 			Timer2_Start();
 			}
