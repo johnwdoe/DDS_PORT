@@ -613,8 +613,7 @@ while(1)//infinite loop
 	{
 	if (SG.flag==1)
 		{
-		//#WTF temporarily commented
-		//GICR|=(1<<INT0);//set external interrupt to enable stop
+		TIFR |= (1<<ICF1); //clear interrupt flag before enabling
 		TIMSK |= (1<<TICIE1);//using input capture interrupt instead of general external.
 		if (SG.mode==7)
 			{
