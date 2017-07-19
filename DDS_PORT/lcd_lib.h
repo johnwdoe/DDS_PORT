@@ -18,12 +18,12 @@
 #include <inttypes.h>
 
 //connect LCD R/W to ground!
-#define LCD_RS	4 	//define MCU pin connected to LCD RS
-#define LCD_E	5	//define MCU pin connected to LCD E
-#define LCD_D4	0	//define MCU pin connected to LCD D3
-#define LCD_D5	1	//define MCU pin connected to LCD D4
-#define LCD_D6	2	//define MCU pin connected to LCD D5
-#define LCD_D7	3	//define MCU pin connected to LCD D6
+#define LCD_RS	5 	//define MCU pin connected to LCD RS
+#define LCD_E	4	//define MCU pin connected to LCD E
+#define LCD_D4	3	//define MCU pin connected to LCD D3
+#define LCD_D5	2	//define MCU pin connected to LCD D4
+#define LCD_D6	1	//define MCU pin connected to LCD D5
+#define LCD_D7	0	//define MCU pin connected to LCD D6
 #define LDP PORTC	//define MCU port connected to LCD data pins
 #define LCP PORTC	//define MCU port connected to LCD control pins
 #define LDDR DDRC	//define MCU direction register for port connected to LCD data pins

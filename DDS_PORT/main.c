@@ -607,6 +607,18 @@ Timer2_Start();
 
 int main(void)
 {
+	/*test r2rport*/
+	/*R2RDDR = 0xFF;
+	R2RPORT = 0x00;
+	int8_t sign=1;
+	while(1)
+	{
+		R2RPORT+=sign;
+		//_delay_ms(100);
+		if(R2RPORT==0xFF || R2RPORT==0x00) sign=(sign==1?-1:1);
+		_delay_ms(1000);
+		R2RPORT ^= 0xff;
+	}*/
 //Initialize
 Main_Init();
 while(1)//infinite loop 
