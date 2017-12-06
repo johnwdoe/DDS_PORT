@@ -607,18 +607,6 @@ Timer2_Start();
 
 int main(void)
 {
-	/*test r2rport*/
-	/*R2RDDR = 0xFF;
-	R2RPORT = 0x00;
-	int8_t sign=1;
-	while(1)
-	{
-		R2RPORT+=sign;
-		//_delay_ms(100);
-		if(R2RPORT==0xFF || R2RPORT==0x00) sign=(sign==1?-1:1);
-		_delay_ms(1000);
-		R2RPORT ^= 0xff;
-	}*/
 //Initialize
 Main_Init();
 while(1)//infinite loop 
@@ -644,22 +632,6 @@ while(1)//infinite loop
 			//start timer menu active
 			Timer2_Start();
 			}
-/*		else if (SG.mode==6)
-			{
-			//freq step
-			while((SG.flag==1))
-			{
-			//not implemented
-			CopyStringtoLCD(NA, 0, 1 );
-			}
-			//set signal level to 0
-			R2RPORT=0x00;
-			//display generator OFF
-			Menu_Update(SG.ON);	
-			GICR&=~(1<<INT0);//|(1<<INT1);//stop external interrupt
-			//start timer menu active
-			Timer2_Start();
-			}*/
 		else if (SG.mode==8)
 			{
 			//High speed signal
